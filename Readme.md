@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Андрей Митрофанов](https://up.htmlacademy.ru/javascript/25/user/429567).
-* Наставник: [Владимир Якушкин](https://github.com/copperkraft).
+* Наставник: [Светлана Березюк](https://github.com/ElseeCCD).
 
 ---
 
