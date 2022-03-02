@@ -51,11 +51,8 @@ function shuffle(arrayInput) {
 
 function createAd (count) {
   for (let i = 1; i < count + 1; i++) {
-    if (i < 10) {
-      i = `0${i}`;
-    }
     const author = {
-      avatar: `img/avatars/user${i}.png`
+      avatar: `img/avatars/user${i < 10 ? `0${i}` : i}.png`
     };
 
     const location = {
@@ -86,4 +83,3 @@ function createAd (count) {
 }
 
 createAd(MAX_ADS);
-console.log(ads);
