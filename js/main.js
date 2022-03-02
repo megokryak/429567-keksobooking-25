@@ -34,7 +34,7 @@ const MAX_ADS = 10;
 const MAX_GUEST = 5;
 const MAX_ROOMS = 7;
 const MAX_PRICE = 22800;
-const ADS = [];
+const ads = [];
 
 //взята с https://learn.javascript.ru/task/shuffle
 function shuffle(arrayInput) {
@@ -49,10 +49,13 @@ function shuffle(arrayInput) {
   return array.slice(maxElementArray);
 }
 
-function createAD (count) {
-  for (let i = 0; i < count; i++) {
+function createAd (count) {
+  for (let i = 1; i < count + 1; i++) {
+    if (i < 10) {
+      i = `0${i}`;
+    }
     const author = {
-      avatar: 'img/avatars/user'+ i +'.png'
+      avatar: `img/avatars/user${i}.png`
     };
 
     const location = {
@@ -61,8 +64,8 @@ function createAD (count) {
     };
 
     const offer = {
-      title: 'Заголовок ' + i,
-      address: location.lat + ',' + location.lng,
+      title: `Заголовок ${i}`,
+      address: `${location.lat},${location.lng}`,
       price: getRandomInt(0, MAX_PRICE),
       type: RENT_TYPE[getRandomInt(0, RENT_TYPE.length - 1)],
       rooms: getRandomInt(0, MAX_ROOMS),
@@ -70,17 +73,17 @@ function createAD (count) {
       checkin: RENT_CHECKIN[getRandomInt(0, RENT_CHECKIN.length - 1)],
       checkout: RENT_CHECKOUT[getRandomInt(0, RENT_CHECKOUT.length - 1)],
       features: shuffle(RENT_FEATURES),
-      description: 'Описание объявления ' + i,
+      description: `Описание объявления ${i}`,
       photos: shuffle(RENT_FOTOS)
     };
 
-    ADS[i] = [
+    ads[i] = {
       author,
       offer,
       location
-    ];
+    };
   }
 }
 
-createAD(MAX_ADS);
-console.log(ADS);
+createAd(MAX_ADS);
+console.log(ads);
