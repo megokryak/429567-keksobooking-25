@@ -48,3 +48,4 @@ function createAd (count) {
 }
 
 export {createAd};
+export {ads};
