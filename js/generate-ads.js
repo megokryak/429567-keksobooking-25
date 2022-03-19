@@ -1,5 +1,7 @@
 import {createAd, ads} from './create-ad.js';
 import {MAX_ADS} from './data.js';
+import {ApartmentType} from './enum.js';
+import {getRoomsDeclension, getGuestsDeclension} from './get-declension.js';
 createAd(MAX_ADS);
 
 const adsTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -8,24 +10,9 @@ const adsListElement = document.querySelector('#map-canvas');
 ads.forEach(
   (element) => {
     const adsElement = adsTemplate.cloneNode(true);
-    if (element.offer.title === ''){
-      adsElement.querySelector('.popup__title').classList.add('hide');
-    }
-    else {
-      adsElement.querySelector('.popup__title').textContent = element.offer.title;
-    }
-    if (element.offer.address === '') {
-      adsElement.querySelector('.popup__text--address').classList.add('hide');
-    }
-    else {
-      adsElement.querySelector('.popup__text--address').textContent = element.offer.address;
-    }
-    if (element.offer.price === '') {
-      adsElement.querySelector('.popup__text--price').classList.add('hide');
-    }
-    else {
-      adsElement.querySelector('.popup__text--price').textContent = `${element.offer.price} ₽/ночь`;
-    }
+    adsElement.querySelector('.popup__title').textContent = element.offer.title;
+    adsElement.querySelector('.popup__text--address').textContent = element.offer.address;
+    adsElement.querySelector('.popup__text--price').textContent = `${element.offer.price} ₽/ночь`;
 
     const popupFeaturesList = adsElement.querySelectorAll('.popup__feature');
     if (element.offer.features.length > 0) {
@@ -41,59 +28,24 @@ ads.forEach(
         }
       );
     }
-    else {
-      popupFeaturesList.classList.add('hdie');
+    else { // Не стал добавлять для родителя, малоли поедет верстка
+      popupFeaturesList.forEach(
+        (popupFeaturesItem) => {
+          popupFeaturesItem.classList.add('hide');
+        }
+      );
     }
     if (element.offer.type.length > 0) {
-      let typeAds;
-      switch (element.offer.type) {
-        case 'flat':
-          typeAds = 'Квартира';
-          break;
-        case 'bungalow':
-          typeAds = 'Бунгало';
-          break;
-        case 'house':
-          typeAds = 'Дом';
-          break;
-        case 'palace':
-          typeAds = 'Дворец';
-          break;
-        case 'hotel':
-          typeAds = 'Отель';
-          break;
-      }
-      adsElement.querySelector('.popup__type').textContent = typeAds;
+      adsElement.querySelector('.popup__type').textContent = ApartmentType[element.offer.type.toUpperCase()];
     }
     else {
-      adsElement.querySelector('.popup__type').classList.add('hdie');
+      adsElement.querySelector('.popup__type').classList.add('hide');
     }
     if (element.offer.rooms === 0 || element.offer.rooms === '' || element.offer.guests === 0 || element.offer.guests === '') {
       adsElement.querySelector('.popup__text--capacity').classList.add('hide');
     }
     else {
-      let countRooms;
-      let countGuests;
-      switch (element.offer.rooms) {
-        case 1:
-          countRooms = `${element.offer.rooms} комната для `;
-          break;
-        case 2:
-          countRooms = `${element.offer.rooms} комнаты для `;
-          break;
-        default:
-          countRooms = `${element.offer.rooms} комнат для `;
-          break;
-      }
-      switch (element.offer.guests) {
-        case 1:
-          countGuests = `${element.offer.guests} гостя`;
-          break;
-        default:
-          countGuests = `${element.offer.guests} гостей`;
-          break;
-      }
-      adsElement.querySelector('.popup__text--capacity').textContent = countRooms + countGuests;
+      adsElement.querySelector('.popup__text--capacity').textContent = `${element.offer.rooms} ${getRoomsDeclension(element.offer.rooms)} для ${element.offer.rooms} ${getGuestsDeclension(element.offer.rooms)}`;
     }
 
     if (element.offer.checkin === '' || element.offer.checkout === '') {
