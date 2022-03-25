@@ -9,6 +9,7 @@ const roomSelect = form.querySelector('#room_number');
 const guestSelect = form.querySelector('#capacity');
 
 const errorMessage = document.querySelector('#error');
+const errorElement = errorMessage.content.querySelector('.error').cloneNode(true);
 
 const disableFomr = () => {
   form.classList.add('ad-form--disabled');
@@ -59,8 +60,21 @@ const checkRoomsAndGuests = () => {
   return false;
 };
 
+const errorCloseElement = (evt) => {
+  if(isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeErrorMessage();
+  }
+};
+
+function closeErrorMessage () {
+  errorElement.remove();
+
+  document.removeEventListener('keydown', errorCloseElement);
+}
+
+
 const processingMessageError = (message) => {
-  const errorElement = errorMessage.content.querySelector('.error').cloneNode(true);
   errorElement.querySelector('.error__message').textContent = message;
   document.querySelector('body').append(errorElement);
 
@@ -68,12 +82,8 @@ const processingMessageError = (message) => {
     errorElement.remove();
   });
 
-  document.addEventListener('keydown', (evt) => {
-    if(isEscapeKey(evt)) {
-      errorElement.remove();
-    }
-  });
-}
+  document.addEventListener('keydown', closeErrorMessage);
+};
 
 form.addEventListener('submit', (evt) => {
   const message = checkRoomsAndGuests();

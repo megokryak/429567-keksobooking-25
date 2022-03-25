@@ -1,5 +1,2 @@
 import './generate-ads.js';
-import {disableFomr, enableForm} from './work-form.js';
-
-
-
+import './work-form.js';
