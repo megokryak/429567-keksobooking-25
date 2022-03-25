@@ -35,4 +35,6 @@ function shuffle(arrayInput) {
   return array.slice(maxElementArray); // обрезаю массив
 }
 
-export {getRandomInt, getRandomFloat, shuffle};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomInt, getRandomFloat, shuffle, isEscapeKey};
