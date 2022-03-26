@@ -36,7 +36,7 @@ ads.forEach(
       );
     }
     if (element.offer.type.length > 0) {
-      adsElement.querySelector('.popup__type').textContent = ApartmentType[element.offer.type.toUpperCase()];
+      adsElement.querySelector('.popup__type').textContent = ApartmentType[element.offer.type.toUpperCase()].name;
     }
     else {
       adsElement.querySelector('.popup__type').classList.add('hide');

@@ -1,5 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {MAX_GUEST, MIN_ROOM} from './data.js';
+import {ApartmentType} from './enum.js';
 
 const form = document.querySelector('.ad-form');
 const formFiledset = form.querySelectorAll('fieldset');
@@ -11,6 +12,12 @@ const guestSelect = form.querySelector('#capacity');
 
 const errorMessage = document.querySelector('#error');
 const errorElement = errorMessage.content.querySelector('.error').cloneNode(true);
+
+const selectTypeAppartment = document.querySelector('#type');
+const typePrice = document.querySelector('#price');
+
+const timeIn  = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
 
 const disableForm = () => {
   form.classList.add('ad-form--disabled');
@@ -93,5 +100,33 @@ form.addEventListener('submit', (evt) => {
     showErrorMessage(message);
   }
 });
+
+const changePlaceHolder = (evt) => {
+  typePrice.placeholder = ApartmentType[selectTypeAppartment.options[evt.target.options.selectedIndex].value.toUpperCase()].MIN_PRICE;
+};
+
+selectTypeAppartment.addEventListener('change', changePlaceHolder);
+
+const changeTimeOut = (evt) => {
+  const selectElement = timeIn.options[evt.target.options.selectedIndex].value;
+  for (let i =0; i < timeOut.options.length; i++) {
+    if (timeOut.options[i].value === selectElement) {
+      timeOut.options[i].selected = 'selected';
+    }
+  }
+};
+
+const changeTimeIn = (evt) => {
+  const selectElement = timeOut.options[evt.target.options.selectedIndex].value;
+  for (let i =0; i < timeIn.options.length; i++) {
+    if (timeIn.options[i].value === selectElement) {
+      timeIn.options[i].selected = 'selected';
+    }
+  }
+};
+
+timeIn.addEventListener('change', changeTimeOut);
+
+timeOut.addEventListener('change', changeTimeIn);
 
 export {disableForm, enableForm};
