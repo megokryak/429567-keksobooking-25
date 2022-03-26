@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {MAX_GUEST, MIN_ROOM} from './data.js';
 
 const form = document.querySelector('.ad-form');
 const formFiledset = form.querySelectorAll('fieldset');
@@ -11,7 +12,7 @@ const guestSelect = form.querySelector('#capacity');
 const errorMessage = document.querySelector('#error');
 const errorElement = errorMessage.content.querySelector('.error').cloneNode(true);
 
-const disableFomr = () => {
+const disableForm = () => {
   form.classList.add('ad-form--disabled');
   formFiledset.forEach(
     (element) => {
@@ -46,21 +47,21 @@ const enableForm = () => {
 };
 
 const checkRoomsAndGuests = () => {
-  const optionRoomsSelect = roomSelect.options[roomSelect.selectedIndex].value;
-  const optionGuestsSelect = guestSelect.options[guestSelect.selectedIndex].value;
-  if (Number(optionGuestsSelect) > Number(optionRoomsSelect) && Number(optionGuestsSelect) !== 100 && Number(optionRoomsSelect) !== 0) {
+  const optionRoomsSelect = Number(roomSelect.options[roomSelect.selectedIndex].value);
+  const optionGuestsSelect = Number(guestSelect.options[guestSelect.selectedIndex].value);
+  if (Number(optionGuestsSelect) > Number(optionRoomsSelect) && Number(optionGuestsSelect) !== MAX_GUEST && Number(optionRoomsSelect) !== MIN_ROOM) {
     return 'Количество гостей не может быть больше чем количество комнат';
   }
-  if (Number(optionGuestsSelect) === 0) {
+  if (Number(optionGuestsSelect) === MIN_ROOM) {
     return 'Необходим хотя бы 1 гость';
   }
-  if (Number(optionRoomsSelect) === 100) {
+  if (Number(optionRoomsSelect) === MAX_GUEST) {
     return 'Данный тип не предназначен для гостей';
   }
   return false;
 };
 
-const errorCloseElement = (evt) => {
+const onEscKeydown = (evt) => {
   if(isEscapeKey(evt)) {
     evt.preventDefault();
     closeErrorMessage();
@@ -70,11 +71,11 @@ const errorCloseElement = (evt) => {
 function closeErrorMessage () {
   errorElement.remove();
 
-  document.removeEventListener('keydown', errorCloseElement);
+  document.removeEventListener('keydown', onEscKeydown);
 }
 
 
-const processingMessageError = (message) => {
+const showErrorMessage = (message) => {
   errorElement.querySelector('.error__message').textContent = message;
   document.querySelector('body').append(errorElement);
 
@@ -89,8 +90,8 @@ form.addEventListener('submit', (evt) => {
   const message = checkRoomsAndGuests();
   if (message) {
     evt.preventDefault();
-    processingMessageError(message);
+    showErrorMessage(message);
   }
 });
 
-export {disableFomr, enableForm};
+export {disableForm, enableForm};
