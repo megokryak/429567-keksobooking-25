@@ -1,6 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {MAX_GUEST, MIN_ROOM} from './data.js';
-import {ApartmentType} from './enum.js';
+import {apartmentsSettings} from './enum.js';
 
 const form = document.querySelector('.ad-form');
 const formFiledset = form.querySelectorAll('fieldset');
@@ -56,13 +56,13 @@ const enableForm = () => {
 const checkRoomsAndGuests = () => {
   const optionRoomsSelect = Number(roomSelect.options[roomSelect.selectedIndex].value);
   const optionGuestsSelect = Number(guestSelect.options[guestSelect.selectedIndex].value);
-  if (Number(optionGuestsSelect) > Number(optionRoomsSelect) && Number(optionGuestsSelect) !== MAX_GUEST && Number(optionRoomsSelect) !== MIN_ROOM) {
+  if (optionGuestsSelect > optionRoomsSelect && optionGuestsSelect !== MAX_GUEST && optionRoomsSelect !== MIN_ROOM) {
     return 'Количество гостей не может быть больше чем количество комнат';
   }
-  if (Number(optionGuestsSelect) === MIN_ROOM) {
+  if (optionGuestsSelect === MIN_ROOM) {
     return 'Необходим хотя бы 1 гость';
   }
-  if (Number(optionRoomsSelect) === MAX_GUEST) {
+  if (optionRoomsSelect === MAX_GUEST) {
     return 'Данный тип не предназначен для гостей';
   }
   return false;
@@ -102,31 +102,31 @@ form.addEventListener('submit', (evt) => {
 });
 
 const changePlaceHolder = (evt) => {
-  typePrice.placeholder = ApartmentType[selectTypeAppartment.options[evt.target.options.selectedIndex].value.toUpperCase()].MIN_PRICE;
+  typePrice.placeholder = apartmentsSettings[selectTypeAppartment.options[evt.target.options.selectedIndex].value.toLowerCase()].minPrice;
 };
 
 selectTypeAppartment.addEventListener('change', changePlaceHolder);
 
-const changeTimeOut = (evt) => {
-  const selectElement = timeIn.options[evt.target.options.selectedIndex].value;
-  for (let i =0; i < timeOut.options.length; i++) {
-    if (timeOut.options[i].value === selectElement) {
-      timeOut.options[i].selected = 'selected';
+const onChangeTimeOut = (evt) => {
+  const timeInValue = timeIn.options[evt.target.options.selectedIndex].value;
+  for (let i = 0; i < timeOut.options.length; i++) {
+    if (timeOut.options[i].value === timeInValue) {
+      timeOut.value = timeInValue;
     }
   }
 };
 
-const changeTimeIn = (evt) => {
-  const selectElement = timeOut.options[evt.target.options.selectedIndex].value;
+const onChangeTimeIn = (evt) => {
+  const timeOutValue = timeOut.options[evt.target.options.selectedIndex].value;
   for (let i =0; i < timeIn.options.length; i++) {
-    if (timeIn.options[i].value === selectElement) {
-      timeIn.options[i].selected = 'selected';
+    if (timeIn.options[i].value === timeOutValue) {
+      timeIn.value = timeOutValue;
     }
   }
 };
 
-timeIn.addEventListener('change', changeTimeOut);
+timeIn.addEventListener('change', onChangeTimeOut);
 
-timeOut.addEventListener('change', changeTimeIn);
+timeOut.addEventListener('change', onChangeTimeIn);
 
 export {disableForm, enableForm};

@@ -1,24 +1,24 @@
-const ApartmentType = {
-  PALACE: {
+const apartmentsSettings = {
+  palace: {
     name: 'Дворец',
-    MIN_PRICE: 10000
+    minPrice: 10000
   },
-  FLAT: {
+  flat: {
     name: 'Квартира',
-    MIN_PRICE: 1000
+    minPrice: 1000
   },
-  HOUSE: {
+  house: {
     name:  'Дом',
-    MIN_PRICE: 5000
+    minPrice: 5000
   },
-  BUNGALOW: {
+  bungalow: {
     name: 'Бунгало',
-    MIN_PRICE: 0
+    minPrice: 0
   },
-  HOTEL: {
+  hotel: {
     name:  'Отель',
-    MIN_PRICE: 3000
+    minPrice: 3000
   }
 };
 
-export {ApartmentType};
+export {apartmentsSettings};

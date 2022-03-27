@@ -1,6 +1,6 @@
 import {createAd, ads} from './create-ad.js';
 import {MAX_ADS} from './data.js';
-import {ApartmentType} from './enum.js';
+import {apartmentsSettings} from './enum.js';
 import {getRoomsDeclension, getGuestsDeclension} from './get-declension.js';
 createAd(MAX_ADS);
 
@@ -36,7 +36,7 @@ ads.forEach(
       );
     }
     if (element.offer.type.length > 0) {
-      adsElement.querySelector('.popup__type').textContent = ApartmentType[element.offer.type.toUpperCase()].name;
+      adsElement.querySelector('.popup__type').textContent = apartmentsSettings[element.offer.type.toLowerCase()].name;
     }
     else {
       adsElement.querySelector('.popup__type').classList.add('hide');
