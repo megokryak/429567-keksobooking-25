@@ -8,9 +8,10 @@ const MAX_LAT = 35.70000;
 const MIN_LNG = 139.70000;
 const MAX_LNG = 139.80000;
 const MAX_ADS = 10;
-const MAX_GUEST = 5;
+const MAX_GUEST = 100;
 const MAX_ROOMS = 7;
 const MAX_PRICE = 22800;
+const MIN_ROOM = 0;
 const ads = [];
 
 export {
@@ -27,5 +28,6 @@ export {
   MAX_GUEST,
   MAX_ROOMS,
   MAX_PRICE,
+  MIN_ROOM,
   ads
 };
