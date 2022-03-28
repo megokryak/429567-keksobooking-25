@@ -107,26 +107,18 @@ const changePlaceHolder = (evt) => {
 
 selectTypeAppartment.addEventListener('change', changePlaceHolder);
 
-const onChangeTimeOut = (evt) => {
-  const timeInValue = timeIn.options[evt.target.options.selectedIndex].value;
-  for (let i = 0; i < timeOut.options.length; i++) {
-    if (timeOut.options[i].value === timeInValue) {
-      timeOut.value = timeInValue;
-    }
-  }
-};
-
 const onChangeTimeIn = (evt) => {
-  const timeOutValue = timeOut.options[evt.target.options.selectedIndex].value;
-  for (let i =0; i < timeIn.options.length; i++) {
-    if (timeIn.options[i].value === timeOutValue) {
-      timeIn.value = timeOutValue;
-    }
-  }
+  const timeInValue = timeIn.options[evt.target.options.selectedIndex].value;
+  timeOut.value = timeInValue;
 };
 
-timeIn.addEventListener('change', onChangeTimeOut);
+const onChangeTimeOut = (evt) => {
+  const timeOutValue = timeOut.options[evt.target.options.selectedIndex].value;
+  timeIn.value = timeOutValue;
+};
 
-timeOut.addEventListener('change', onChangeTimeIn);
+timeIn.addEventListener('change', onChangeTimeIn);
+
+timeOut.addEventListener('change', onChangeTimeOut);
 
 export {disableForm, enableForm};
