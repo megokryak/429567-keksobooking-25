@@ -5,7 +5,6 @@ import {getRoomsDeclension, getGuestsDeclension} from './get-declension.js';
 createAd(MAX_ADS);
 
 const adsTemplate = document.querySelector('#card').content.querySelector('.popup');
-const adsListElement = document.querySelector('#map-canvas');
 
 ads.forEach(
   (element) => {
@@ -79,8 +78,5 @@ ads.forEach(
     else {
       imgListElement.classList.add('hide');
     }
-
-
-    adsListElement.append(adsElement);
   }
 );
