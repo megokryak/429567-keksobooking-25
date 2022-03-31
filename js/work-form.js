@@ -1,5 +1,5 @@
 import {isEscapeKey} from './util.js';
-import {MAX_GUEST, MIN_ROOM} from './data.js';
+import {MAX_GUEST, MIN_ROOM, MAX_PRICE} from './data.js';
 import {apartmentsSettings} from './enum.js';
 
 const form = document.querySelector('.ad-form');
@@ -120,5 +120,32 @@ const onChangeTimeOut = (evt) => {
 timeIn.addEventListener('change', onChangeTimeIn);
 
 timeOut.addEventListener('change', onChangeTimeOut);
+
+
+//SLIDER
+const slider = document.querySelector('.ad-form__slider');
+
+
+noUiSlider.create(slider, {
+  range: {
+    min: 0,
+    max: MAX_PRICE,
+  },
+  start: 5000,
+  connect: 'lower',
+  step: 1000,
+  format: {
+    to: function (value) {
+      return value;
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+slider.noUiSlider.on('update', () => {
+  typePrice.value = slider.noUiSlider.get();
+});
 
 export {disableForm, enableForm};

@@ -47,5 +47,4 @@ function createAd (count) {
   }
 }
 
-export {createAd};
-export {ads};
+export {createAd, ads};
