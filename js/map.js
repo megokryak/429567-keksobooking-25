@@ -1,6 +1,6 @@
 import {disableForm, enableForm} from './work-form.js';
-import {LAT_TOKIO, LNG_TOKIO, MAP_SCALING, PIN_SIZE, ROUDING_VALUE, AD_PIN_SIZE} from './data.js';
-import {ads} from './create-ad.js';
+import {LAT_TOKIO, LNG_TOKIO, MAP_SCALING, PIN_SIZE, ROUDING_VALUE, AD_PIN_SIZE, MAX_ADS} from './data.js';
+import {getData} from './server.js';
 import {generateAds} from './generate-ads.js';
 
 
@@ -8,9 +8,7 @@ const address = document.querySelector('#address');
 disableForm();
 
 const map = L.map('map-canvas')
-  .on('load', () => {
-    enableForm();
-  })
+  .on('load', enableForm)
   .setView({
     lat: LAT_TOKIO,
     lng: LNG_TOKIO,
@@ -49,7 +47,7 @@ mainPinMarker.on('moveend', (evt) => {
 });
 
 const adPin = L.icon({
-  iconUrl: '../img/pin.svg',
+  iconUrl: './img/pin.svg',
   iconSize: [AD_PIN_SIZE, AD_PIN_SIZE],
   iconAnchor: [AD_PIN_SIZE/2, AD_PIN_SIZE],
 });
@@ -67,8 +65,11 @@ const createMarkers = (ad) => {
   adPinMarker.addTo(map).bindPopup(generateAds(ad));
 };
 
-ads.forEach(
-  (ad) => {
-    createMarkers(ad);
-  }
-);
+getData((ads) => {
+  ads.slice(0, MAX_ADS).forEach(
+    (ad) => {
+      createMarkers(ad);
+    }
+  );
+});
+

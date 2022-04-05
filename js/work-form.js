@@ -1,6 +1,7 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey, showAlert, resetForm} from './util.js';
 import {MAX_GUEST, MIN_ROOM, MAX_PRICE} from './data.js';
 import {apartmentsSettings} from './enum.js';
+import {sendData} from './server.js';
 
 const form = document.querySelector('.ad-form');
 const formFiledset = form.querySelectorAll('fieldset');
@@ -18,6 +19,10 @@ const typePrice = document.querySelector('#price');
 
 const timeIn  = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
+
+const address = document.querySelector('#address');
+const submitButton = document.querySelector('.ad-form__submit');
+const resetButton = document.querySelector('.ad-form__reset');
 
 const disableForm = () => {
   form.classList.add('ad-form--disabled');
@@ -53,7 +58,7 @@ const enableForm = () => {
   );
 };
 
-const checkRoomsAndGuests = () => {
+const checkRoomsAndGuestsAndCoordinate = () => {
   const optionRoomsSelect = Number(roomSelect.options[roomSelect.selectedIndex].value);
   const optionGuestsSelect = Number(guestSelect.options[guestSelect.selectedIndex].value);
   if (optionGuestsSelect > optionRoomsSelect && optionGuestsSelect !== MAX_GUEST && optionRoomsSelect !== MIN_ROOM) {
@@ -64,6 +69,9 @@ const checkRoomsAndGuests = () => {
   }
   if (optionRoomsSelect === MAX_GUEST) {
     return 'Данный тип не предназначен для гостей';
+  }
+  if(address.value.length === 0) {
+    return 'Выберите на карте точку';
   }
   return false;
 };
@@ -77,7 +85,6 @@ const onEscKeydown = (evt) => {
 
 function closeErrorMessage () {
   errorElement.remove();
-
   document.removeEventListener('keydown', onEscKeydown);
 }
 
@@ -93,13 +100,15 @@ const showErrorMessage = (message) => {
   document.addEventListener('keydown', closeErrorMessage);
 };
 
-form.addEventListener('submit', (evt) => {
-  const message = checkRoomsAndGuests();
-  if (message) {
-    evt.preventDefault();
-    showErrorMessage(message);
-  }
-});
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
 
 const changePlaceHolder = (evt) => {
   typePrice.placeholder = apartmentsSettings[selectTypeAppartment.options[evt.target.options.selectedIndex].value.toLowerCase()].minPrice;
@@ -124,7 +133,6 @@ timeOut.addEventListener('change', onChangeTimeOut);
 
 //SLIDER
 const slider = document.querySelector('.ad-form__slider');
-const sliderInput = document.querySelector('#price');
 
 noUiSlider.create(slider, {
   range: {
@@ -144,12 +152,39 @@ noUiSlider.create(slider, {
   },
 });
 
-slider.noUiSlider.on('update', () => {
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const message = checkRoomsAndGuestsAndCoordinate();
+  if (message) {
+    showErrorMessage(message);
+  }
+  else {
+    blockSubmitButton();
+    sendData(
+      () => {
+        unblockSubmitButton();
+        resetForm(slider.noUiSlider);
+      },
+      () => {
+        showAlert('Не удалось отправить форму');
+        unblockSubmitButton();
+      },
+      new FormData(evt.target)
+    );
+  }
+});
+
+
+slider.noUiSlider.on('slide', () => {
   typePrice.value = slider.noUiSlider.get();
 });
 
-sliderInput.addEventListener('change', () => {
-  slider.noUiSlider.set(sliderInput.value);
+typePrice.addEventListener('change', () => {
+  slider.noUiSlider.set(typePrice.value);
+});
+
+resetButton.addEventListener('click', () => {
+  resetForm(slider.noUiSlider);
 });
 
 export {disableForm, enableForm};

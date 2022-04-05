@@ -1,9 +1,5 @@
-import {createAd} from './create-ad.js';
-import {MAX_ADS} from './data.js';
 import {apartmentsSettings} from './enum.js';
 import {getRoomsDeclension, getGuestsDeclension} from './get-declension.js';
-
-createAd(MAX_ADS);
 
 const adsTemplate = document.querySelector('#card').content.querySelector('.popup');
 
@@ -14,7 +10,7 @@ const generateAds = (ad) => {
   adsElement.querySelector('.popup__text--price').textContent = `${ad.offer.price} ₽/ночь`;
 
   const popupFeaturesList = adsElement.querySelectorAll('.popup__feature');
-  if (ad.offer.features.length > 0) {
+  if (ad.offer.features !== undefined) {
     popupFeaturesList.forEach(
       (popupFeaturesItem) => {
         const isNecessary = ad.offer.features.some(
@@ -61,7 +57,7 @@ const generateAds = (ad) => {
   }
 
   const imgListElement = adsElement.querySelector('.popup__photos');
-  if (ad.offer.type.length > 0) {
+  if (ad.offer.type.length > 0 && ad.offer.photos !== undefined) {
     const imgItemFragmet = document.createDocumentFragment();
     ad.offer.photos.forEach((imgElementSrc) => {
       const imgListItem = document.createElement('img');
