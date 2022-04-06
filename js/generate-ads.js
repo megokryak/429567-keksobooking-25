@@ -10,7 +10,7 @@ const generateAds = (ad) => {
   adsElement.querySelector('.popup__text--price').textContent = `${ad.offer.price} ₽/ночь`;
 
   const popupFeaturesList = adsElement.querySelectorAll('.popup__feature');
-  if (ad.offer.features !== undefined) {
+  if (ad.offer.features) {
     popupFeaturesList.forEach(
       (popupFeaturesItem) => {
         const isNecessary = ad.offer.features.some(

@@ -1,4 +1,5 @@
-import {ALERT_SHOW_TIME, PLACE_HOLDER} from './data.js';
+import {ALERT_SHOW_TIME, PLACE_HOLDER, LAT_TOKIO, LNG_TOKIO} from './data.js';
+import {resetMainPinMarker} from './map.js';
 
 //Функция возвращает рандомное целое число из диапазона включительно
 function getRandomInt(min, max) {
@@ -41,7 +42,7 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
+  alertContainer.style.position = 'fixed';
   alertContainer.style.left = 0;
   alertContainer.style.top = 0;
   alertContainer.style.right = 0;
@@ -75,7 +76,7 @@ const timeOut = document.querySelector('#timeout');
 
 const resetForm = (slider) => {
   titleForm.value = '';
-  address.value = '';
+  address.value = `${LAT_TOKIO}, ${LNG_TOKIO}`;
   typePrice.placeholder = PLACE_HOLDER;
   slider.set(PLACE_HOLDER);
   typePrice.value = '';
@@ -92,6 +93,7 @@ const resetForm = (slider) => {
   );
   fileForm.value = '';
   avatarForm.value = '';
+  resetMainPinMarker();
 };
 
 export {getRandomInt, getRandomFloat, shuffle, isEscapeKey, showAlert, resetForm};

@@ -1,5 +1,5 @@
 import {isEscapeKey, showAlert, resetForm} from './util.js';
-import {MAX_GUEST, MIN_ROOM, MAX_PRICE} from './data.js';
+import {MAX_GUEST, MIN_ROOM, MAX_PRICE, LAT_TOKIO, LNG_TOKIO} from './data.js';
 import {apartmentsSettings} from './enum.js';
 import {sendData} from './server.js';
 
@@ -48,6 +48,7 @@ const enableForm = () => {
       element.disabled = false;
     }
   );
+  address.value = `${LAT_TOKIO}, ${LNG_TOKIO}`;
 
   form.querySelector('.ad-form__slider').classList.remove('ad-form__slider--disabled');
   mapFilters.classList.remove('map__filters--disabled');
@@ -70,7 +71,7 @@ const checkRoomsAndGuestsAndCoordinate = () => {
   if (optionRoomsSelect === MAX_GUEST) {
     return 'Данный тип не предназначен для гостей';
   }
-  if(address.value.length === 0) {
+  if (address.value.length === 0) {
     return 'Выберите на карте точку';
   }
   return false;

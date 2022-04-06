@@ -46,6 +46,13 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = `${coordinates.lat.toFixed(ROUDING_VALUE)}, ${coordinates.lng.toFixed(ROUDING_VALUE)}`;
 });
 
+const resetMainPinMarker = () => {
+  mainPinMarker.setLatLng({
+    lat: LAT_TOKIO,
+    lng: LNG_TOKIO,
+  });
+};
+
 const adPin = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [AD_PIN_SIZE, AD_PIN_SIZE],
@@ -73,3 +80,4 @@ getData((ads) => {
   );
 });
 
+export {resetMainPinMarker};
