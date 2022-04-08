@@ -71,8 +71,16 @@ const checkRoomsAndGuestsAndCoordinate = () => {
   if (optionRoomsSelect === MAX_GUEST) {
     return 'Данный тип не предназначен для гостей';
   }
-  if (address.value.length === 0) {
+  if (address.value === '') {
     return 'Выберите на карте точку';
+  }
+  return false;
+};
+
+
+const validatePrice = () => {
+  if (typePrice.value <= apartmentsSettings[selectTypeAppartment.value].minPrice) {
+    return `Цена должна быть выше ${apartmentsSettings[selectTypeAppartment.value].minPrice}`;
   }
   return false;
 };
@@ -156,8 +164,12 @@ noUiSlider.create(slider, {
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const message = checkRoomsAndGuestsAndCoordinate();
+  const messageValidatePrice = validatePrice();
   if (message) {
     showErrorMessage(message);
+  }
+  if (messageValidatePrice) {
+    showErrorMessage(messageValidatePrice);
   }
   else {
     blockSubmitButton();
@@ -184,7 +196,8 @@ typePrice.addEventListener('change', () => {
   slider.noUiSlider.set(typePrice.value);
 });
 
-resetButton.addEventListener('click', () => {
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
   resetForm(slider.noUiSlider);
 });
 
