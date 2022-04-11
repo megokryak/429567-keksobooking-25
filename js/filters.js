@@ -1,7 +1,8 @@
 import {priceValue} from './enum.js';
-import {MAX_ADS, DEFAULT_VALUE_FILTER} from './data.js';
+import {MAX_ADS, DEFAULT_VALUE_FILTER, RERENDER_DELAY} from './data.js';
 import {getData} from './server.js';
 import {markerGroup, createMarkers} from './map.js';
+import {debounce} from './debounce.js';
 
 const filtersForm = document.querySelector('.map__filters');
 
@@ -63,7 +64,7 @@ const checkFeatures = (ad) => {
   }
 };
 
-filtersForm.addEventListener('change', () => {
+const getFilter = () => {
   getData((ads) => {
     ads.slice()
       .filter(checkType)
@@ -78,4 +79,12 @@ filtersForm.addEventListener('change', () => {
       );
   });
   markerGroup.clearLayers();
-});
+}
+
+filtersForm.addEventListener('change', () => {
+  debounce(
+    () => getFilter(),
+    RERENDER_DELAY,
+    );
+  }
+);
