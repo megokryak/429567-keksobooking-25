@@ -59,6 +59,8 @@ const adPin = L.icon({
   iconAnchor: [AD_PIN_SIZE/2, AD_PIN_SIZE],
 });
 
+const markerGroup = L.layerGroup().addTo(map);
+
 const createMarkers = (ad) => {
   const adPinMarker = L.marker(
     {
@@ -69,7 +71,9 @@ const createMarkers = (ad) => {
       icon: adPin,
     },
   );
-  adPinMarker.addTo(map).bindPopup(generateAds(ad));
+  adPinMarker
+    .addTo(markerGroup)
+    .bindPopup(generateAds(ad));
 };
 
 getData((ads) => {
@@ -80,4 +84,4 @@ getData((ads) => {
   );
 });
 
-export {resetMainPinMarker};
+export {resetMainPinMarker, markerGroup, createMarkers};

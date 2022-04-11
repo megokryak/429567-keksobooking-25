@@ -21,4 +21,19 @@ const apartmentsSettings = {
   }
 };
 
-export {apartmentsSettings};
+const priceValue = {
+  low: {
+    name : 'low',
+    price: 10000
+  },
+  middle: {
+    name: 'middle',
+    price: 50000
+  },
+  high: {
+    name: 'high',
+    price: 100000
+  }
+};
+
+export {apartmentsSettings, priceValue};
