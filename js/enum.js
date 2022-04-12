@@ -36,4 +36,6 @@ const priceValue = {
   }
 };
 
-export {apartmentsSettings, priceValue};
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+export {apartmentsSettings, priceValue, FILE_TYPES};
