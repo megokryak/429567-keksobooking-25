@@ -79,12 +79,9 @@ const getFilter = () => {
       );
   });
   markerGroup.clearLayers();
-}
+};
 
-filtersForm.addEventListener('change', () => {
-  debounce(
-    () => getFilter(),
-    RERENDER_DELAY,
-    );
-  }
+filtersForm.addEventListener('change', debounce(
+  () => getFilter(),
+  RERENDER_DELAY)
 );

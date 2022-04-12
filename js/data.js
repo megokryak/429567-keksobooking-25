@@ -12,7 +12,7 @@ const AD_PIN_SIZE = 40;
 const ALERT_SHOW_TIME = 7000;
 const PLACE_HOLDER = 5000;
 const DEFAULT_VALUE_FILTER = 'any';
-const RERENDER_DELAY = 5000;
+const RERENDER_DELAY = 500;
 
 export {
   MAX_ADS,
