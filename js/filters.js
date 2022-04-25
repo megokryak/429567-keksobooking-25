@@ -8,18 +8,12 @@ const filtersForm = document.querySelector('.map__filters');
 
 const checkType = (ad) => {
   const housingTypeInput = filtersForm.querySelector('#housing-type');
-  if (ad.offer.type === housingTypeInput.value || DEFAULT_VALUE_FILTER === housingTypeInput.value) {
-    return true;
-  }
-  return false;
+  return ad.offer.type === housingTypeInput.value || DEFAULT_VALUE_FILTER === housingTypeInput.value;
 };
 
 const checkRoom = (ad) => {
   const roomsInput = filtersForm.querySelector('#housing-rooms');
-  if (Number(ad.offer.rooms) === Number(roomsInput.value) || DEFAULT_VALUE_FILTER === roomsInput.value) {
-    return true;
-  }
-  return false;
+  return Number(ad.offer.rooms) === Number(roomsInput.value) || DEFAULT_VALUE_FILTER === roomsInput.value;
 };
 
 const checkPrice = (ad) => {
@@ -40,12 +34,7 @@ const checkPrice = (ad) => {
 
 const checkGuests = (ad) => {
   const guestsInput = filtersForm.querySelector('#housing-guests');
-  if (Number(ad.offer.guests) === Number(guestsInput.value)) {
-    return true;
-  }
-  if (guestsInput.value === DEFAULT_VALUE_FILTER) {
-    return true;
-  }
+  return Number(ad.offer.guests) === Number(guestsInput.value) || guestsInput.value === DEFAULT_VALUE_FILTER;
 };
 
 const checkFeatures = (ad) => {

@@ -4,12 +4,12 @@ import {getRoomsDeclension, getGuestsDeclension} from './get-declension.js';
 const adsTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const generateAds = (ad) => {
-  const adsElement = adsTemplate.cloneNode(true);
-  adsElement.querySelector('.popup__title').textContent = ad.offer.title;
-  adsElement.querySelector('.popup__text--address').textContent = ad.offer.address;
-  adsElement.querySelector('.popup__text--price').textContent = `${ad.offer.price} ₽/ночь`;
+  const adsContainer = adsTemplate.cloneNode(true);
+  adsContainer.querySelector('.popup__title').textContent = ad.offer.title;
+  adsContainer.querySelector('.popup__text--address').textContent = ad.offer.address;
+  adsContainer.querySelector('.popup__text--price').textContent = `${ad.offer.price} ₽/ночь`;
 
-  const popupListFeatures = adsElement.querySelectorAll('.popup__feature');
+  const popupListFeatures = adsContainer.querySelectorAll('.popup__feature');
   if (ad.offer.features) {
     popupListFeatures.forEach(
       (popupFeaturesItem) => {
@@ -31,32 +31,32 @@ const generateAds = (ad) => {
     );
   }
   if (ad.offer.type.length > 0) {
-    adsElement.querySelector('.popup__type').textContent = apartmentsSettings[ad.offer.type.toLowerCase()].name;
+    adsContainer.querySelector('.popup__type').textContent = apartmentsSettings[ad.offer.type.toLowerCase()].name;
   }
   else {
-    adsElement.querySelector('.popup__type').classList.add('hide');
+    adsContainer.querySelector('.popup__type').classList.add('hide');
   }
   if (ad.offer.rooms === 0 || ad.offer.rooms === '' || ad.offer.guests === 0 || ad.offer.guests === '') {
-    adsElement.querySelector('.popup__text--capacity').classList.add('hide');
+    adsContainer.querySelector('.popup__text--capacity').classList.add('hide');
   }
   else {
-    adsElement.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} ${getRoomsDeclension(ad.offer.rooms)} для ${ad.offer.rooms} ${getGuestsDeclension(ad.offer.rooms)}`;
+    adsContainer.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} ${getRoomsDeclension(ad.offer.rooms)} для ${ad.offer.rooms} ${getGuestsDeclension(ad.offer.rooms)}`;
   }
 
   if (ad.offer.checkin === '' || ad.offer.checkout === '') {
-    adsElement.querySelector('.popup__text--time').classList.add('hide');
+    adsContainer.querySelector('.popup__text--time').classList.add('hide');
   }
   else {
-    adsElement.querySelector('.popup__text--time').textContent = `Заезд после ${ad.offer.checkin} , выезд до ${ad.offer.checkout}`;
+    adsContainer.querySelector('.popup__text--time').textContent = `Заезд после ${ad.offer.checkin} , выезд до ${ad.offer.checkout}`;
   }
   if (ad.offer.description === '') {
-    adsElement.querySelector('.popup__description').classList.add('hide');
+    adsContainer.querySelector('.popup__description').classList.add('hide');
   }
   else {
-    adsElement.querySelector('.popup__description').textContent = ad.offer.description;
+    adsContainer.querySelector('.popup__description').textContent = ad.offer.description;
   }
 
-  const imgListElement = adsElement.querySelector('.popup__photos');
+  const imgListElement = adsContainer.querySelector('.popup__photos');
   if (ad.offer.type.length > 0 && ad.offer.photos !== undefined) {
     const imgItemFragmet = document.createDocumentFragment();
     ad.offer.photos.forEach((imgElementSrc) => {
@@ -74,7 +74,7 @@ const generateAds = (ad) => {
   else {
     imgListElement.classList.add('hide');
   }
-  return adsElement;
+  return adsContainer;
 };
 
 export {generateAds};

@@ -75,4 +75,8 @@ const createMarkers = (ad) => {
     .bindPopup(generateAds(ad));
 };
 
-export {resetMainPinMarker, markerGroup, createMarkers};
+const closeBalun = () => {
+  map.closePopup();
+};
+
+export {resetMainPinMarker, markerGroup, createMarkers, closeBalun};

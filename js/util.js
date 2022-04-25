@@ -1,5 +1,6 @@
 import {ALERT_SHOW_TIME, PLACE_HOLDER, LAT_TOKIO, LNG_TOKIO} from './data.js';
 import {resetMainPinMarker} from './map.js';
+import {closeBalun} from './map.js';
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
@@ -77,7 +78,7 @@ const resetForm = (slider) => {
       element.checked = false;
     }
   );
-
+  closeBalun();
 };
 
 export {isEscapeKey, showAlert, resetForm};

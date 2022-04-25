@@ -13,9 +13,9 @@ const roomSelect = form.querySelector('#room_number');
 const guestSelect = form.querySelector('#capacity');
 
 const errorMessage = document.querySelector('#error');
-const errorElement = errorMessage.content.querySelector('.error').cloneNode(true);
-const errorParagraph = errorElement.querySelector('.error__message');
-const errorButton = errorElement.querySelector('.error__button');
+const errorContainer = errorMessage.content.querySelector('.error').cloneNode(true);
+const errorParagraph = errorContainer.querySelector('.error__message');
+const errorButton = errorContainer.querySelector('.error__button');
 
 const successMessage = document.querySelector('#success');
 const successElement = successMessage.content.querySelector('.success').cloneNode(true);
@@ -94,7 +94,7 @@ const validateInputData = () => {
   if (address.value === '') {
     errorsList.push('Выберите на карте точку');
   }
-  if (typePrice.value <= apartmentsSettings[selectTypeAppartment.value].minPrice) {
+  if (typePrice.value < apartmentsSettings[selectTypeAppartment.value].minPrice) {
     errorsList.push(`Цена должна быть выше ${apartmentsSettings[selectTypeAppartment.value].minPrice}`);
   }
   if (formTitle.value.length < 30 || formTitle.value.length > 100) {
@@ -111,20 +111,20 @@ const onEscKeydown = (evt) => {
   }
 };
 
-const onClickEmptyPlaceError = (evt) => {
-  if (evt.target !== errorParagraph && evt.target !== errorButton) {
-    closeErrorMessage();
-  }
-};
-
 const onClickEmptyPlaceSuccsess = (evt) => {
   if (evt.target !== errorParagraph) {
     closeSuccessMessage();
   }
 };
 
+const onClickEmptyPlaceError = (evt) => {
+  if (evt.target !== errorParagraph && evt.target !== errorButton) {
+    closeErrorMessage();
+  }
+};
+
 function closeErrorMessage () {
-  errorElement.remove();
+  errorContainer.remove();
   document.removeEventListener('keydown', onEscKeydown);
   document.removeEventListener('click', onClickEmptyPlaceError);
 }
@@ -140,11 +140,11 @@ const showErrorMessage = (message) => {
   for (let i = 0; i< message.length; i++) {
     textError += `${message[i]} <br/>`;
   }
-  errorElement.querySelector('.error__message').innerHTML = textError;
-  document.querySelector('body').append(errorElement);
+  errorContainer.querySelector('.error__message').innerHTML = textError;
+  document.querySelector('body').append(errorContainer);
 
-  errorElement.querySelector('.error__button').addEventListener('click', () => {
-    errorElement.remove();
+  errorContainer.querySelector('.error__button').addEventListener('click', () => {
+    errorContainer.remove();
   });
 
   document.addEventListener('click', onClickEmptyPlaceError);
@@ -168,11 +168,11 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const changePlaceHolder = (evt) => {
+const onChangePlaceHolder = (evt) => {
   typePrice.placeholder = apartmentsSettings[selectTypeAppartment.options[evt.target.options.selectedIndex].value.toLowerCase()].minPrice;
 };
 
-selectTypeAppartment.addEventListener('change', changePlaceHolder);
+selectTypeAppartment.addEventListener('change', onChangePlaceHolder);
 
 const onChangeTimeIn = (evt) => {
   const timeInValue = timeIn.options[evt.target.options.selectedIndex].value;
@@ -201,12 +201,8 @@ noUiSlider.create(slider, {
   connect: 'lower',
   step: 1000,
   format: {
-    to: function (value) {
-      return value;
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    to: (value) => value,
+    from: (value) => parseFloat(value),
   },
 });
 
